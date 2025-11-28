@@ -55,15 +55,21 @@ resposta(404, ['error' => 'Rota nao encontrada']);
 
 function calcular(string $operacao, float $a, float $b): float
 {
-    return match ($operacao) {
-        'soma' => $a + $b,
-        'subtracao' => $a - $b,
-        'multiplicacao' => $a * $b,
-        'divisao' => $b === 0.0
-            ? throw new InvalidArgumentException('Divisao por zero nao permitida')
-            : $a / $b,
-        default => throw new InvalidArgumentException('Operacao desconhecida'),
-    };
+    switch ($operacao) {
+        case 'soma':
+            return $a + $b;
+        case 'subtracao':
+            return $a - $b;
+        case 'multiplicacao':
+            return $a * $b;
+        case 'divisao':
+            if ($b === 0.0) {
+                throw new InvalidArgumentException('Divisao por zero nao permitida');
+            }
+            return $a / $b;
+        default:
+            throw new InvalidArgumentException('Operacao desconhecida');
+    }
 }
 
 function resposta(int $status, array $corpo): void
